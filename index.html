@@ -4,89 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portail Étudiant - UPSAC</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* 1. VARIABLE POU THEME */
+        /* =========================================
+           1. VARIABLE POU THEME (LIGHT & DARK)
+           ========================================= */
         :root {
-            --bg-color: #f8fafb;
+            --bg-color: #f0f4f7;
             --card-bg: #ffffff;
             --text-color: #2d3436;
             --input-border: #e1e8ed;
             --shadow: rgba(0, 0, 0, 0.1);
             --header-grad: linear-gradient(135deg, #11999E 0%, #30E3CB 100%);
+            --card-hover: #fcfdfe;
         }
 
         [data-theme="dark"] {
             --bg-color: #121212;
             --card-bg: #1e1e1e;
             --text-color: #e0e0e0;
-            --input-border: #333;
-            --shadow: rgba(0, 0, 0, 0.5);
+            --input-border: #333333;
+            --shadow: rgba(0, 0, 0, 0.4);
             --header-grad: linear-gradient(135deg, #0a5a5d 0%, #11999E 100%);
+            --card-hover: #252525;
         }
 
-        /* 2. RESET AK STIL JENERAL */
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-color); 
-            line-height: 1.6; 
-            display: none; 
+        /* =========================================
+           2. RESET AK STIL JENERAL
+           ========================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.3s ease; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: none; /* Kache pou sekirite okòmansman */
         }
 
-        /* BAR PARAMÈT (LANG & THEME) */
+        /* BAR PARAMÈT */
         .settings-bar {
-            position: fixed; top: 10px; right: 10px; z-index: 1000;
-            display: flex; gap: 8px;
+            position: fixed; top: 15px; right: 20px; z-index: 1000;
+            display: flex; gap: 10px;
         }
         .settings-btn {
-            padding: 8px 12px; border-radius: 20px; border: none;
+            padding: 8px 15px; border-radius: 25px; border: none;
             background: var(--card-bg); color: var(--text-color);
-            box-shadow: 0 2px 5px var(--shadow); cursor: pointer; font-size: 0.8rem; font-weight: 600;
+            box-shadow: 0 4px 10px var(--shadow); cursor: pointer;
+            font-size: 0.85rem; font-weight: 600; outline: none;
         }
 
         /* HEADER */
-        .class-header { 
-            background: var(--header-grad); 
-            color: white; padding: 60px 20px; text-align: center; 
-            clip-path: ellipse(150% 100% at 50% 0%); 
+        .class-header {
+            background: var(--header-grad); color: white;
+            padding: 80px 20px; text-align: center;
+            clip-path: ellipse(150% 100% at 50% 0%);
         }
-        .univ-logo { width: 100px; height: auto; margin-bottom: 15px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2)); }
-        
-        /* CONTAINERS */
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; min-height: 60vh; }
-        
-        .registration-card, .academic-section { 
-            background: var(--card-bg); padding: 30px; border-radius: 20px; 
-            box-shadow: 0 10px 25px var(--shadow); margin-bottom: 30px;
+        .univ-logo { width: 100px; margin-bottom: 15px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2)); }
+        .class-info p {
+            background: rgba(255, 255, 255, 0.2); padding: 6px 15px;
+            border-radius: 50px; display: inline-block; margin: 5px; font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .registration-card { max-width: 500px; margin: -40px auto 40px auto; text-align: center; position: relative; z-index: 10; }
-        .input-group { text-align: left; margin-bottom: 15px; }
+        /* LAYOUT */
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        .card-section {
+            background: var(--card-bg); padding: 35px; border-radius: 25px;
+            margin-bottom: 30px; box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        /* FORMULAIRE */
+        .registration-card { max-width: 500px; margin: -50px auto 40px auto; text-align: center; position: relative; z-index: 10; border-top: 5px solid #11999E; }
+        .input-group { text-align: left; margin-bottom: 18px; }
         label { font-weight: 600; color: #11999E; font-size: 0.85rem; }
-        input { 
-            width: 100%; padding: 12px; border: 1.5px solid var(--input-border); 
-            border-radius: 10px; margin-top: 5px; outline: none;
-            background: var(--card-bg); color: var(--text-color);
+        input {
+            width: 100%; padding: 14px; background: var(--card-bg); color: var(--text-color);
+            border: 1.5px solid var(--input-border); border-radius: 12px; margin-top: 5px; outline: none;
         }
-
-        .btn-enroll { background: #11999E; color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: 600; cursor: pointer; }
+        .btn-enroll {
+            background: #11999E; color: white; border: none; padding: 16px;
+            width: 100%; border-radius: 12px; font-weight: 600; cursor: pointer;
+        }
 
         /* TIMER */
-        .countdown-container { text-align: center; background: #2d3436; color: white; padding: 20px; border-radius: 15px; margin-bottom: 30px; }
-        #timer { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
-        .time-box { background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 8px; min-width: 65px; }
+        .countdown-container { text-align: center; background: #2d3436; color: white; padding: 30px 20px; border-radius: 20px; margin-bottom: 35px; }
+        #timer { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
+        .time-box { background: rgba(255, 255, 255, 0.08); padding: 15px; border-radius: 12px; min-width: 80px; }
+        .time-box span { font-size: 2rem; font-weight: 700; display: block; }
+        .time-box p { font-size: 0.7rem; text-transform: uppercase; opacity: 0.6; }
 
         /* GRID */
-        .exam-grid, .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
-        .exam-day, .resource-card { 
-            background: var(--bg-color); border: 1px solid var(--input-border); 
-            padding: 15px; border-radius: 12px; text-align: center; color: var(--text-color); text-decoration: none;
+        .exam-grid, .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 25px; }
+        .exam-day, .resource-card {
+            background: var(--card-hover); border: 1px solid var(--input-border);
+            padding: 25px 15px; border-radius: 18px; text-align: center; text-decoration: none; color: var(--text-color);
         }
+        .date-tag { background: #11999E; color: white; padding: 6px 14px; border-radius: 25px; font-size: 0.85rem; margin-bottom: 15px; display: inline-block; }
+        .subject { font-weight: 700; display: block; }
 
-        .footer-pro { background: #1a1d20; color: white; padding: 40px 20px; text-align: center; margin-top: 50px; }
-        .contact-btn { text-decoration: none; padding: 10px 20px; border-radius: 25px; color: white; margin: 5px; display: inline-flex; align-items: center; gap: 8px; }
+        /* FOOTER */
+        .footer-pro { background: #1a1d20; color: white; padding: 60px 20px; text-align: center; margin-top: 80px; }
+        .btn-whatsapp { background: #25D366; color: white; text-decoration: none; padding: 15px; border-radius: 12px; display: block; margin-top: 20px; font-weight: 600; }
 
         @media (max-width: 600px) { .exam-grid, .resource-grid { grid-template-columns: 1fr; } }
     </style>
@@ -97,6 +118,7 @@
         <select id="lang-switch" class="settings-btn">
             <option value="fr">🇫🇷 FR</option>
             <option value="kr">🇭🇹 KR</option>
+            <option value="en">🇺🇸 EN</option>
         </select>
         <button id="theme-toggle" class="settings-btn">🌙</button>
     </div>
@@ -104,18 +126,18 @@
     <header class="class-header">
         <img src="Images/Logo.png" alt="Logo UPSAC" class="univ-logo">
         <h1>UPSAC - CAYES</h1>
-        <h2 id="txt-sub">Science de l'Éducation</h2>
+        <h2 id="txt-faculty">Science de l'Éducation</h2>
         <div class="class-info">
             <p>FSE II</p>
-            <p id="txt-sec">Seksyon II</p>
+            <p id="txt-section">Section II</p>
         </div>
     </header>
 
     <main class="container">
-        <section class="registration-card" id="form-section">
-            <div class="lock-icon">🔒</div>
-            <h2 id="txt-lock-title">AKSÈ ETIDYAN</h2>
-            <p id="txt-lock-desc">Ranpli fòm sa a pou w ka jwenn tout enfòmasyon yo.</p>
+        <section class="card-section registration-card" id="form-section">
+            <div style="font-size: 2.5rem; margin-bottom: 10px;">🔒</div>
+            <h2 id="txt-access-title">ACCÈS ÉTUDIANT</h2>
+            <p id="txt-access-desc">Veuillez remplir ce formulaire pour accéder aux informations.</p>
             
             <form id="registration-form" action="https://formspree.io/f/xykddyeb" method="POST">
                 <div class="input-group">
@@ -123,35 +145,39 @@
                     <input type="text" name="nom" required>
                 </div>
                 <div class="input-group">
-                    <label id="lbl-id">Numéro d'ID (Kòd Etidyan)</label>
-                    <input type="text" name="id_etudiant" pattern="[A-Z]{3}-SE[0-9]{2}-[0-9]{4}" required>
+                    <label id="lbl-id">ID Étudiant</label>
+                    <input type="text" name="id" placeholder="PLA-SE24-XXXX" required>
                 </div>
-                <button type="submit" class="btn-enroll" id="btn-unlock">DEBLOKE AKSÈ MWEN</button>
+                <button type="submit" class="btn-enroll" id="btn-unlock">DÉBLOQUER MON ACCÈS</button>
             </form>
         </section>
 
         <div id="hidden-content" style="display: none;">
-            <section class="academic-section">
-                <h2 id="txt-ann-title">📢 Dènye Anons</h2>
-                <p id="txt-ann-msg">Egzamen yo ap kòmanse 02 Mas 2026.</p>
-            </section>
-
             <div class="countdown-container">
-                <h3 id="txt-timer-title">⏳ Tan ki rete anvan Egzamen:</h3>
+                <h3 id="txt-timer-title">⏳ Temps restant avant Examens:</h3>
                 <div id="timer">
-                    <div class="time-box"><span id="days">00</span><p class="unit">Jou</p></div>
-                    <div class="time-box"><span id="hours">00</span><p class="unit">Lè</p></div>
+                    <div class="time-box"><span id="days">00</span><p class="unit">Jours</p></div>
+                    <div class="time-box"><span id="hours">00</span><p class="unit">Heures</p></div>
                     <div class="time-box"><span id="minutes">00</span><p class="unit">Min</p></div>
-                    <div class="time-box"><span id="seconds">00</span><p class="unit">Seg</p></div>
+                    <div class="time-box"><span id="seconds">00</span><p class="unit">Sec</p></div>
                 </div>
             </div>
 
-            <section class="academic-section">
+            <section class="card-section">
                 <h2 id="txt-cal-title">📅 KALANDRIYE</h2>
                 <div class="exam-grid">
-                    <div class="exam-day"><span class="subject">Matière 1</span><p>08h-11h</p></div>
-                    <div class="exam-day"><span class="subject">Matière 2</span><p>08h-11h</p></div>
+                    <div class="exam-day"><div class="date-tag" id="txt-mon">Lundi 02</div><span class="subject">Matière 1</span><p>08h-11h</p></div>
+                    <div class="exam-day"><div class="date-tag" id="txt-tue">Madi 03</div><span class="subject">Matière 2</span><p>08h-11h</p></div>
                 </div>
+            </section>
+
+            <section class="card-section">
+                <h2 id="txt-res-title">📚 Ressources</h2>
+                <div class="resource-grid">
+                    <a href="#" class="resource-card" id="txt-syl">📄 Syllabus</a>
+                    <a href="#" class="resource-card" id="txt-not">📕 Notes</a>
+                </div>
+                <a href="https://wa.me/50932293348" class="btn-whatsapp" id="btn-wa">REJOINDRE LE GROUPE WHATSAPP</a>
             </section>
         </div>
     </main>
@@ -161,70 +187,84 @@
     </footer>
 
     <script>
-        // --- 1. TRADUKSYON ---
+        // 1. TRADUCTION DATA
         const langData = {
             fr: {
-                sub: "Science de l'Éducation", sec: "Section II",
-                lockT: "ACCÈS ÉTUDIANT", lockD: "Remplissez ce formulaire pour accéder aux informations.",
-                lblName: "Nom et Prénom", lblId: "Numéro d'ID", btnU: "DÉBLOQUER MON ACCÈS",
-                annT: "📢 Dernières Annonces", annM: "Les examens commencent le 02 Mars 2026.",
-                timT: "⏳ Temps restant avant Examens:",
-                units: ["Jours", "Heures", "Min", "Sec"], calT: "📅 CALENDRIER"
+                faculty: "Science de l'Éducation", section: "Section II",
+                accessT: "ACCÈS ÉTUDIANT", accessD: "Veuillez remplir ce formulaire pour accéder aux informations.",
+                name: "Nom et Prénom", id: "ID Étudiant", unlock: "DÉBLOQUER MON ACCÈS",
+                timerT: "⏳ Temps restant avant Examens:", units: ["Jours", "Heures", "Min", "Sec"],
+                calT: "📅 CALENDRIER", resT: "📚 Ressources", btnWA: "REJOINDRE LE GROUPE WHATSAPP",
+                mon: "Lundi 02", tue: "Mardi 03", syl: "📄 Syllabus", not: "📕 Notes"
             },
             kr: {
-                sub: "Syans Edikasyon", sec: "Seksyon II",
-                lockT: "AKSÈ ETIDYAN", lockD: "Ranpli fòm sa a pou w ka jwenn tout enfòmasyon yo.",
-                lblName: "Non ak Prenon", lblId: "Nimewo ID", btnU: "DEBLOKE AKSÈ MWEN",
-                annT: "📢 Dènye Anons", annM: "Egzamen yo ap kòmanse 02 Mas 2026.",
-                timT: "⏳ Tan ki rete anvan Egzamen:",
-                units: ["Jou", "Lè", "Min", "Seg"], calT: "📅 KALANDRIYE"
+                faculty: "Syans Edikasyon", section: "Seksyon II",
+                accessT: "AKSÈ ETIDYAN", accessD: "Ranpli fòm sa a pou w ka jwenn tout enfòmasyon yo.",
+                name: "Non ak Prenon", id: "ID Etidyan", unlock: "DEBLOKE AKSÈ MWEN",
+                timerT: "⏳ Tan ki rete anvan Egzamen:", units: ["Jou", "Lè", "Min", "Seg"],
+                calT: "📅 KALANDRIYE", resT: "📚 Resous yo", btnWA: "ANTRE NAN GWOUP WHATSAPP LA",
+                mon: "Lendi 02", tue: "Madi 03", syl: "📄 Silabis", not: "📕 Nòt yo"
+            },
+            en: {
+                faculty: "Science of Education", section: "Section II",
+                accessT: "STUDENT ACCESS", accessD: "Please fill out this form to access information.",
+                name: "Full Name", id: "Student ID", unlock: "UNLOCK MY ACCESS",
+                timerT: "⏳ Time left before Exams:", units: ["Days", "Hours", "Min", "Sec"],
+                calT: "📅 CALENDAR", resT: "📚 Resources", btnWA: "JOIN WHATSAPP GROUP",
+                mon: "Monday 02", tue: "Tuesday 03", syl: "📄 Syllabus", not: "📕 Notes"
             }
         };
 
+        // CHANJE LANG
         document.getElementById('lang-switch').addEventListener('change', (e) => {
             const l = langData[e.target.value];
-            document.getElementById('txt-sub').innerText = l.sub;
-            document.getElementById('txt-sec').innerText = l.sec;
-            document.getElementById('txt-lock-title').innerText = l.lockT;
-            document.getElementById('txt-lock-desc').innerText = l.lockD;
-            document.getElementById('lbl-name').innerText = l.lblName;
-            document.getElementById('lbl-id').innerText = l.lblId;
-            document.getElementById('btn-unlock').innerText = l.btnU;
-            document.getElementById('txt-ann-title').innerText = l.annT;
-            document.getElementById('txt-ann-msg').innerText = l.annM;
-            document.getElementById('txt-timer-title').innerText = l.timT;
+            document.getElementById('txt-faculty').innerText = l.faculty;
+            document.getElementById('txt-section').innerText = l.section;
+            document.getElementById('txt-access-title').innerText = l.accessT;
+            document.getElementById('txt-access-desc').innerText = l.accessD;
+            document.getElementById('lbl-name').innerText = l.name;
+            document.getElementById('lbl-id').innerText = l.id;
+            document.getElementById('btn-unlock').innerText = l.unlock;
+            document.getElementById('txt-timer-title').innerText = l.timerT;
             document.getElementById('txt-cal-title').innerText = l.calT;
+            document.getElementById('txt-res-title').innerText = l.resT;
+            document.getElementById('btn-wa').innerText = l.btnWA;
+            document.getElementById('txt-mon').innerText = l.mon;
+            document.getElementById('txt-tue').innerText = l.tue;
+            document.getElementById('txt-syl').innerText = l.syl;
+            document.getElementById('txt-not').innerText = l.not;
+            
             const units = document.querySelectorAll('.unit');
             l.units.forEach((u, i) => units[i].innerText = u);
         });
 
-        // --- 2. DARK MODE ---
+        // 2. MODE SOMBRE
         document.getElementById('theme-toggle').addEventListener('click', function() {
-            const body = document.body;
-            const isDark = body.getAttribute('data-theme') === 'dark';
-            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
             this.innerText = isDark ? '🌙' : '☀️';
         });
 
-        // --- 3. SEKIRITE ---
-        const KOD_AKSE = "UPSAC-2026"; 
+        // 3. SEKIRITE KÒD (UPSAC-2026)
+        const CODE_UPSAC = "UPSAC-2026";
         window.onload = function() {
-            if (sessionStorage.getItem("access") !== "true") {
-                let check = prompt("Kòd Aksè Klas la:");
-                if (check === KOD_AKSE) {
-                    sessionStorage.setItem("access", "true");
+            if (sessionStorage.getItem("auth") !== "true") {
+                let check = prompt("Kòd Aksè Klas la / Access Code:");
+                if (check === CODE_UPSAC) {
+                    sessionStorage.setItem("auth", "true");
                     document.body.style.display = "block";
                 } else {
-                    alert("Kòd la mal!"); window.location.reload();
+                    alert("Kòd la pa bon! / Incorrect Code!"); window.location.reload();
                 }
             } else { document.body.style.display = "block"; }
         };
 
-        // --- 4. FORM & TIMER (Logik ou a) ---
+        // 4. FORM & TIMER
         document.getElementById('registration-form').addEventListener('submit', function() {
             setTimeout(() => {
                 document.getElementById('form-section').style.display = 'none';
                 document.getElementById('hidden-content').style.display = 'block';
+                window.scrollTo({top: 0, behavior: 'smooth'});
             }, 800);
         });
 
