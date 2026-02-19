@@ -8,7 +8,13 @@
     <style>
         /* 1. RESET AK STIL JENERAL */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background-color: #f8fafb; color: #2d3436; line-height: 1.6; }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #f8fafb; 
+            color: #2d3436; 
+            line-height: 1.6; 
+            display: none; /* Paj la kache pa defo pou sekirite */
+        }
 
         /* 2. HEADER */
         .class-header { 
@@ -57,9 +63,9 @@
         .resource-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .resource-card { background: #f1f8f7; padding: 15px; border-radius: 12px; text-decoration: none; color: #333; text-align: center; transition: 0.3s; border: 1px solid transparent; }
         .resource-card:hover { border-color: #11999E; background: white; }
-        .btn-whatsapp { background: #25D366; margin-top: 15px; text-decoration: none; display: block; text-align: center; }
+        .btn-whatsapp { background: #25D366; margin-top: 15px; text-decoration: none; display: block; text-align: center; color: white; padding: 15px; border-radius: 12px; font-weight: 600; }
 
-        /* 7. FOOTER PWOFESYONÈL (KONTAK) */
+        /* 7. FOOTER PWOFESYONÈL */
         .footer-pro { 
             background: #1a1d20; color: white; padding: 40px 20px; 
             text-align: center; margin-top: 50px; border-top: 4px solid #11999E; 
@@ -100,8 +106,8 @@
     <main class="container">
         <section class="registration-card" id="form-section">
             <div class="lock-icon">🔒</div>
-            <h2>AKSÈ RESTREINT</h2>
-            <p>Ranpli fòm nan ak kòd etidyan ou pou debloke rès paj la.</p>
+            <h2>AKSÈ ETIDYAN</h2>
+            <p>Ranpli fòm sa a pou w ka jwenn tout enfòmasyon yo.</p>
             
             <form id="registration-form" action="https://formspree.io/f/xykddyeb" method="POST">
                 <div class="input-group">
@@ -115,7 +121,6 @@
                         name="id_etudiant" 
                         placeholder="Egz: PLA-SE24-4236" 
                         pattern="[A-Z]{3}-SE[0-9]{2}-[0-9]{4}" 
-                        title="Fòma a dwe: PLA-SE24-4236" 
                         required
                     >
                 </div>
@@ -133,7 +138,7 @@
                 <div class="announcement-item">
                     <span class="badge-new">NEW</span>
                     <p style="font-size: 0.9rem; margin-top: 5px;">
-                        Byenveni! Egzamen yo ap kòmanse nan dat <strong>02 Mas 2026</strong>. Prepare nou!
+                        Egzamen yo ap kòmanse <strong>02 Mas 2026</strong>. Siksè pou tout moun!
                     </p>
                 </div>
             </section>
@@ -149,21 +154,21 @@
             </div>
 
             <section class="academic-section">
-                <h2>📅 KALANDRIYE (02-06 MAS)</h2>
+                <h2>📅 KALANDRIYE</h2>
                 <div class="exam-grid">
-                    <div class="exam-day"><div class="date-tag">Lendi 02</div><span class="subject">Matière 1</span><p class="time">08h-11h</p></div>
-                    <div class="exam-day"><div class="date-tag">Madi 03</div><span class="subject">Matière 2</span><p class="time">08h-11h</p></div>
-                    <div class="exam-day"><div class="date-tag">Mèkredi 04</div><span class="subject">Matière 3</span><p class="time">08h-11h</p></div>
+                    <div class="exam-day"><div class="date-tag">Lendi 02</div><span class="subject">Matière 1</span><p>08h-11h</p></div>
+                    <div class="exam-day"><div class="date-tag">Madi 03</div><span class="subject">Matière 2</span><p>08h-11h</p></div>
+                    <div class="exam-day"><div class="date-tag">Mèkredi 04</div><span class="subject">Matière 3</span><p>08h-11h</p></div>
                 </div>
             </section>
 
             <section class="academic-section">
-                <h2>📚 Bibliyotèk</h2>
+                <h2>📚 Bibliyotèk & Gwoup</h2>
                 <div class="resource-grid">
                     <a href="#" class="resource-card">📄 Syllabus</a>
                     <a href="#" class="resource-card">📕 Nòt Kou</a>
                 </div>
-                <a href="https://wa.me/50932293348" class="btn-enroll btn-whatsapp">ANTRE NAN CHAT WHATSAPP</a>
+                <a href="https://wa.me/50932293348" class="btn-whatsapp" style="margin-top: 20px;">ANTRE NAN CHAT WHATSAPP</a>
             </section>
         </div>
     </main>
@@ -171,45 +176,46 @@
     <footer class="footer-pro">
         <div class="footer-content">
             <p class="dev-by">Sit sa a kreye pa <strong>Pierre Hitler Larochelle</strong></p>
-            <p class="service-text">Besoin d'un site web ou d'un projet similaire ?</p>
-            
             <div class="contact-buttons">
-                <a href="https://wa.me/50932293348" class="contact-btn whatsapp-footer">
-                    <span>💬 WhatsApp</span>
-                </a>
-                <a href="tel:+50932293348" class="contact-btn call-footer">
-                    <span>📞 Rele m: 3229-3348</span>
-                </a>
+                <a href="https://wa.me/50932293348" class="contact-btn whatsapp-footer"><span>💬 WhatsApp</span></a>
+                <a href="tel:+50932293348" class="contact-btn call-footer"><span>📞 3229-3348</span></a>
             </div>
-            
-            <div class="copyright">
-                <p>© 2026 | UPSAC - FSE II | Tout dwa rezève</p>
-            </div>
+            <div class="copyright"><p>© 2026 | UPSAC | Tout dwa rezève</p></div>
         </div>
     </footer>
 
-    <div onclick="unlockAdmin()" style="position:fixed; bottom:5px; right:5px; width:15px; height:15px; opacity:0.1; cursor:pointer; z-index: 1000;"></div>
-
     <script>
-        const form = document.getElementById('registration-form');
-        const hidden = document.getElementById('hidden-content');
-        const formSect = document.getElementById('form-section');
+        // 1. SEKIRITE AKSÈ KLAS LA
+        const KOD_AKSE_KLAS = "UPSAC-2026"; 
 
-        form.addEventListener('submit', function(e) {
+        window.onload = function() {
+            let dejaAntre = sessionStorage.getItem("access_granted");
+
+            if (dejaAntre !== "true") {
+                let check = prompt("Antre Kòd Aksè Klas la (Mandé l nan gwoup la):");
+                if (check === KOD_AKSE_KLAS) {
+                    sessionStorage.setItem("access_granted", "true");
+                    document.body.style.display = "block";
+                } else {
+                    alert("Kòd la pa bon!");
+                    window.location.reload();
+                }
+            } else {
+                document.body.style.display = "block";
+            }
+        };
+
+        // 2. LOGIK FORM NAN
+        const form = document.getElementById('registration-form');
+        form.addEventListener('submit', function() {
             setTimeout(() => {
-                formSect.style.display = 'none';
-                hidden.style.display = 'block';
+                document.getElementById('form-section').style.display = 'none';
+                document.getElementById('hidden-content').style.display = 'block';
                 window.scrollTo({top:0, behavior:'smooth'});
             }, 800);
         });
 
-        function unlockAdmin() {
-            if(prompt("Kòd Admin:") === "UPSAC2026") {
-                formSect.style.display = 'none';
-                hidden.style.display = 'block';
-            }
-        }
-
+        // 3. COUNTDOWN
         function updateTimer() {
             const target = new Date("March 2, 2026 08:00:00").getTime();
             const now = new Date().getTime();
