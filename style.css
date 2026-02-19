@@ -1,27 +1,80 @@
 /* =========================================
-   1. RESET AK STIL JENERAL
+   1. VARIABLE POU THEME (LIGHT & DARK)
    ========================================= */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Merriweather:wght@400;700&display=swap');
+:root {
+    --bg-color: #f0f4f7;
+    --card-bg: #ffffff;
+    --text-color: #2d3436;
+    --input-border: #e1e8ed;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --header-grad: linear-gradient(135deg, #11999E 0%, #30E3CB 100%);
+    --card-hover: #fcfdfe;
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --input-border: #333333;
+    --shadow: rgba(0, 0, 0, 0.4);
+    --header-grad: linear-gradient(135deg, #0a5a5d 0%, #11999E 100%);
+    --card-hover: #252525;
+}
+
+/* =========================================
+   2. RESET AK STIL JENERAL
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f0f4f7;
-    color: #2d3436;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     line-height: 1.6;
     overflow-x: hidden;
 }
 
 /* =========================================
-   2. HEADER (UPSAC STYLING)
+   3. BAR PARAMÈT (FIXED)
+   ========================================= */
+.settings-bar {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+}
+
+.settings-btn {
+    padding: 8px 15px;
+    border-radius: 25px;
+    border: none;
+    background: var(--card-bg);
+    color: var(--text-color);
+    box-shadow: 0 4px 10px var(--shadow);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    backdrop-filter: blur(5px);
+}
+
+.settings-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   4. HEADER (UPSAC STYLE)
    ========================================= */
 .class-header {
-    background: linear-gradient(135deg, #11999E 0%, #30E3CB 100%);
+    background: var(--header-grad);
     color: white;
     padding: 80px 20px;
     text-align: center;
@@ -31,21 +84,8 @@ body {
 
 .univ-logo {
     width: 100px;
-    height: auto;
     margin-bottom: 15px;
     filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));
-    transition: transform 0.3s ease;
-}
-
-.univ-logo:hover {
-    transform: scale(1.1);
-}
-
-.class-header h1 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 .class-info p {
@@ -55,12 +95,11 @@ body {
     display: inline-block;
     margin: 5px;
     font-size: 0.85rem;
-    backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* =========================================
-   3. BARYÈ ENSKRIPSYON (LOCK SCREEN)
+   5. KAT ENSKRIPSYON (LOCK SCREEN)
    ========================================= */
 .container {
     max-width: 900px;
@@ -71,26 +110,14 @@ body {
 .registration-card {
     max-width: 500px;
     margin: -50px auto 40px auto;
-    background: #ffffff;
+    background: var(--card-bg);
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 35px var(--shadow);
     text-align: center;
     position: relative;
     z-index: 10;
     border-top: 5px solid #11999E;
-}
-
-.lock-icon {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    display: block;
-}
-
-.registration-card h2 {
-    color: #11999E;
-    margin-bottom: 10px;
-    font-size: 1.4rem;
 }
 
 .input-group {
@@ -102,29 +129,21 @@ label {
     font-weight: 600;
     color: #11999E;
     font-size: 0.85rem;
-    margin-left: 5px;
 }
 
 input {
     width: 100%;
     padding: 14px;
-    border: 1.5px solid #e1e8ed;
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1.5px solid var(--input-border);
     border-radius: 12px;
     margin-top: 5px;
-    font-family: inherit;
-    transition: all 0.3s ease;
+    outline: none;
 }
 
 input:focus {
     border-color: #30E3CB;
-    box-shadow: 0 0 8px rgba(48, 227, 203, 0.2);
-    outline: none;
-}
-
-/* Validasyon erè */
-input:invalid:not(:placeholder-shown) {
-    border-color: #e74c3c;
-    background-color: #fff6f6;
 }
 
 .btn-enroll {
@@ -135,37 +154,25 @@ input:invalid:not(:placeholder-shown) {
     width: 100%;
     border-radius: 12px;
     font-weight: 600;
-    font-size: 1rem;
     cursor: pointer;
     transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 6px rgba(17, 153, 158, 0.2);
 }
 
 .btn-enroll:hover {
     background-color: #0e8489;
     transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(17, 153, 158, 0.3);
 }
 
 /* =========================================
-   4. REVÈY DEKONT (COUNTDOWN)
+   6. REVÈY DEKONT
    ========================================= */
 .countdown-container {
     text-align: center;
-    background: #2d3436;
+    background: #2d3436; /* Toujou nwa pou kontras */
     color: white;
     padding: 30px 20px;
     border-radius: 20px;
     margin-bottom: 35px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-}
-
-.countdown-container h3 {
-    font-size: 0.9rem;
-    color: #30E3CB;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
 }
 
 #timer {
@@ -178,224 +185,62 @@ input:invalid:not(:placeholder-shown) {
 .time-box {
     background: rgba(255, 255, 255, 0.08);
     padding: 15px;
-    border-radius: 15px;
+    border-radius: 12px;
     min-width: 80px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .time-box span {
     font-size: 2rem;
     font-weight: 700;
     display: block;
-    color: #ffffff;
-}
-
-.time-box p {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    opacity: 0.6;
-    margin-top: 5px;
 }
 
 /* =========================================
-   5. ANONS AK KALANDRIYE
+   7. KALANDRIYE AK RESOUS
    ========================================= */
 .academic-section {
-    background: #ffffff;
+    background: var(--card-bg);
     padding: 35px;
     border-radius: 25px;
     margin-bottom: 30px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+    box-shadow: 0 8px 20px var(--shadow);
 }
 
-.announcements {
-    border-left: 6px solid #FF8C00;
-    background: #fffdf9;
-}
-
-.badge-new {
-    background: #e74c3c;
-    color: white;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    animation: blink 1.5s infinite;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-.exam-grid {
+.exam-grid, .resource-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 20px;
-    margin-top: 25px;
 }
 
-.exam-day {
-    background: #fcfdfe;
-    border: 1px solid #edf2f7;
+.exam-day, .resource-card {
+    background: var(--card-hover);
+    border: 1px solid var(--input-border);
     padding: 25px 15px;
     border-radius: 18px;
     text-align: center;
-    transition: all 0.3s ease;
 }
 
-.exam-day:hover {
-    transform: translateY(-8px);
-    border-color: #11999E;
-    box-shadow: 0 12px 20px rgba(0,0,0,0.06);
-}
-
-.date-tag {
-    background: #11999E;
-    color: white;
-    padding: 6px 14px;
-    border-radius: 25px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 15px;
-    display: inline-block;
-}
-
-.subject {
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: #2d3436;
-    display: block;
-}
-
-/* =========================================
-   6. RESOUS AK BIBLIYOTÈK
-   ========================================= */
-.resource-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
-
-.resource-card {
-    background: #f1f8f7;
-    padding: 30px 20px;
-    border-radius: 18px;
-    text-decoration: none;
-    color: #2d3436;
-    text-align: center;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.resource-card:hover {
-    background: white;
+.exam-day:hover, .resource-card:hover {
     border-color: #11999E;
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(17, 153, 158, 0.1);
-}
-
-.btn-whatsapp {
-    background-color: #25D366;
-    margin-top: 30px;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    color: white;
-}
-
-.btn-whatsapp:hover {
-    background-color: #1eb954;
 }
 
 /* =========================================
-   7. FOOTER PWOFESYONÈL (KONTAK DEV)
+   8. FOOTER
    ========================================= */
 .footer-pro {
     background: #1a1d20;
-    color: #ffffff;
+    color: white;
     padding: 60px 20px 30px;
     text-align: center;
     margin-top: 80px;
-    border-top: 4px solid #11999E;
-}
-
-.footer-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.dev-by {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-}
-
-.dev-by strong {
-    color: #30E3CB;
-    text-transform: uppercase;
-}
-
-.service-text {
-    font-size: 0.95rem;
-    opacity: 0.7;
-    margin-bottom: 30px;
-}
-
-.contact-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 40px;
-    flex-wrap: wrap;
-}
-
-.contact-btn {
-    text-decoration: none;
-    padding: 15px 35px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 200px;
-    color: white;
-}
-
-.whatsapp-footer { background-color: #25D366; }
-.call-footer { background-color: #11999E; }
-
-.contact-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-}
-
-.copyright {
-    font-size: 0.8rem;
-    opacity: 0.4;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 25px;
-    margin-top: 30px;
-    letter-spacing: 1px;
 }
 
 /* =========================================
-   8. RESPONSIVE (MOBILE)
+   9. MOBILE RESPONSIVE
    ========================================= */
 @media (max-width: 600px) {
-    .class-header { padding: 60px 15px; }
-    .class-header h1 { font-size: 1.4rem; }
-    .registration-card { width: 92%; padding: 30px 20px; margin-top: -40px; }
+    .settings-bar { top: 10px; right: 10px; }
+    .registration-card { width: 92%; padding: 25px; }
     .exam-grid, .resource-grid { grid-template-columns: 1fr; }
-    .contact-buttons { flex-direction: column; align-items: center; }
-    .contact-btn { width: 100%; max-width: 300px; }
-    #timer { gap: 10px; }
-    .time-box { min-width: 70px; padding: 10px; }
 }
