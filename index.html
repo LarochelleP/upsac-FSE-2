@@ -6,216 +6,228 @@
     <title>Portail Étudiant - UPSAC</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* 1. RESET AK STIL JENERAL */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background-color: #f8fafb; 
-            color: #2d3436; 
-            line-height: 1.6; 
-            display: none; /* Paj la kache pa defo pou sekirite */
+        /* 1. VARIABLE POU THEME */
+        :root {
+            --bg-color: #f8fafb;
+            --card-bg: #ffffff;
+            --text-color: #2d3436;
+            --input-border: #e1e8ed;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --header-grad: linear-gradient(135deg, #11999E 0%, #30E3CB 100%);
         }
 
-        /* 2. HEADER */
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --input-border: #333;
+            --shadow: rgba(0, 0, 0, 0.5);
+            --header-grad: linear-gradient(135deg, #0a5a5d 0%, #11999E 100%);
+        }
+
+        /* 2. RESET AK STIL JENERAL */
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            line-height: 1.6; 
+            display: none; 
+        }
+
+        /* BAR PARAMÈT (LANG & THEME) */
+        .settings-bar {
+            position: fixed; top: 10px; right: 10px; z-index: 1000;
+            display: flex; gap: 8px;
+        }
+        .settings-btn {
+            padding: 8px 12px; border-radius: 20px; border: none;
+            background: var(--card-bg); color: var(--text-color);
+            box-shadow: 0 2px 5px var(--shadow); cursor: pointer; font-size: 0.8rem; font-weight: 600;
+        }
+
+        /* HEADER */
         .class-header { 
-            background: linear-gradient(135deg, #11999E 0%, #30E3CB 100%); 
+            background: var(--header-grad); 
             color: white; padding: 60px 20px; text-align: center; 
             clip-path: ellipse(150% 100% at 50% 0%); 
         }
         .univ-logo { width: 100px; height: auto; margin-bottom: 15px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2)); }
-        .class-header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 5px; }
-        .class-info p { background: rgba(255, 255, 255, 0.2); padding: 5px 15px; border-radius: 50px; display: inline-block; margin: 5px; font-size: 0.8rem; }
         
-        /* 3. LAYOUT */
+        /* CONTAINERS */
         .container { max-width: 900px; margin: 0 auto; padding: 20px; min-height: 60vh; }
         
-        /* 4. KAT ENSKRIPSYON */
-        .registration-card { 
-            max-width: 500px; margin: -40px auto 40px auto; 
-            background: white; padding: 35px; border-radius: 20px; 
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); text-align: center; 
-            position: relative; z-index: 10; 
+        .registration-card, .academic-section { 
+            background: var(--card-bg); padding: 30px; border-radius: 20px; 
+            box-shadow: 0 10px 25px var(--shadow); margin-bottom: 30px;
         }
-        .lock-icon { font-size: 2rem; margin-bottom: 10px; }
-        .registration-card h2 { color: #11999E; margin-bottom: 10px; }
+
+        .registration-card { max-width: 500px; margin: -40px auto 40px auto; text-align: center; position: relative; z-index: 10; }
         .input-group { text-align: left; margin-bottom: 15px; }
         label { font-weight: 600; color: #11999E; font-size: 0.85rem; }
-        input { width: 100%; padding: 12px; border: 1.5px solid #e1e8ed; border-radius: 10px; margin-top: 5px; outline: none; }
-        .btn-enroll { background: #11999E; color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .btn-enroll:hover { background: #0e8489; transform: scale(1.02); }
+        input { 
+            width: 100%; padding: 12px; border: 1.5px solid var(--input-border); 
+            border-radius: 10px; margin-top: 5px; outline: none;
+            background: var(--card-bg); color: var(--text-color);
+        }
 
-        /* 5. REVÈY DEKONT */
+        .btn-enroll { background: #11999E; color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: 600; cursor: pointer; }
+
+        /* TIMER */
         .countdown-container { text-align: center; background: #2d3436; color: white; padding: 20px; border-radius: 15px; margin-bottom: 30px; }
         #timer { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
         .time-box { background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 8px; min-width: 65px; }
-        .time-box span { font-size: 1.5rem; font-weight: 700; display: block; }
-        .time-box p { font-size: 0.6rem; text-transform: uppercase; opacity: 0.7; }
 
-        /* 6. KALANDRIYE AK ANONS */
-        .academic-section { background: white; padding: 25px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .announcements { border-left: 6px solid #FF8C00; background: #fff9f0; }
-        .badge-new { background: #e74c3c; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; animation: blink 1.5s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-        .exam-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
-        .exam-day { background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 12px; text-align: center; }
-        .date-tag { background: #11999E; color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; margin-bottom: 10px; display: inline-block; }
-        .subject { font-weight: 700; font-size: 0.95rem; display: block; margin-bottom: 5px; }
-        .resource-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .resource-card { background: #f1f8f7; padding: 15px; border-radius: 12px; text-decoration: none; color: #333; text-align: center; transition: 0.3s; border: 1px solid transparent; }
-        .resource-card:hover { border-color: #11999E; background: white; }
-        .btn-whatsapp { background: #25D366; margin-top: 15px; text-decoration: none; display: block; text-align: center; color: white; padding: 15px; border-radius: 12px; font-weight: 600; }
+        /* GRID */
+        .exam-grid, .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
+        .exam-day, .resource-card { 
+            background: var(--bg-color); border: 1px solid var(--input-border); 
+            padding: 15px; border-radius: 12px; text-align: center; color: var(--text-color); text-decoration: none;
+        }
 
-        /* 7. FOOTER PWOFESYONÈL */
-        .footer-pro { 
-            background: #1a1d20; color: white; padding: 40px 20px; 
-            text-align: center; margin-top: 50px; border-top: 4px solid #11999E; 
-        }
-        .dev-by { font-size: 1rem; margin-bottom: 5px; }
-        .dev-by strong { color: #30E3CB; }
-        .service-text { font-size: 0.85rem; opacity: 0.7; margin-bottom: 20px; }
-        .contact-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
-        .contact-btn { 
-            text-decoration: none; padding: 10px 20px; border-radius: 25px; 
-            color: white; font-weight: 600; font-size: 0.9rem; transition: 0.3s; 
-            display: flex; align-items: center; gap: 8px;
-        }
-        .whatsapp-footer { background: #25D366; }
-        .call-footer { background: #11999E; }
-        .contact-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .copyright { font-size: 0.7rem; opacity: 0.4; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+        .footer-pro { background: #1a1d20; color: white; padding: 40px 20px; text-align: center; margin-top: 50px; }
+        .contact-btn { text-decoration: none; padding: 10px 20px; border-radius: 25px; color: white; margin: 5px; display: inline-flex; align-items: center; gap: 8px; }
 
-        @media (max-width: 600px) { 
-            .exam-grid, .resource-grid { grid-template-columns: 1fr; }
-            .contact-buttons { flex-direction: column; align-items: center; }
-            .contact-btn { width: 100%; max-width: 250px; justify-content: center; }
-        }
+        @media (max-width: 600px) { .exam-grid, .resource-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body>
+<body data-theme="light">
+
+    <div class="settings-bar">
+        <select id="lang-switch" class="settings-btn">
+            <option value="fr">🇫🇷 FR</option>
+            <option value="kr">🇭🇹 KR</option>
+        </select>
+        <button id="theme-toggle" class="settings-btn">🌙</button>
+    </div>
 
     <header class="class-header">
         <img src="Images/Logo.png" alt="Logo UPSAC" class="univ-logo">
         <h1>UPSAC - CAYES</h1>
-        <h2>Science de l'Éducation</h2>
+        <h2 id="txt-sub">Science de l'Éducation</h2>
         <div class="class-info">
             <p>FSE II</p>
-            <p>Seksyon II</p>
+            <p id="txt-sec">Seksyon II</p>
         </div>
     </header>
 
     <main class="container">
         <section class="registration-card" id="form-section">
             <div class="lock-icon">🔒</div>
-            <h2>AKSÈ ETIDYAN</h2>
-            <p>Ranpli fòm sa a pou w ka jwenn tout enfòmasyon yo.</p>
+            <h2 id="txt-lock-title">AKSÈ ETIDYAN</h2>
+            <p id="txt-lock-desc">Ranpli fòm sa a pou w ka jwenn tout enfòmasyon yo.</p>
             
             <form id="registration-form" action="https://formspree.io/f/xykddyeb" method="POST">
                 <div class="input-group">
-                    <label>Nom et Prénom</label>
-                    <input type="text" name="nom" placeholder="Non konplè" required>
+                    <label id="lbl-name">Nom et Prénom</label>
+                    <input type="text" name="nom" required>
                 </div>
                 <div class="input-group">
-                    <label>Numéro d'ID (Kòd Etidyan)</label>
-                    <input 
-                        type="text" 
-                        name="id_etudiant" 
-                        placeholder="Egz: PLA-SE24-4236" 
-                        pattern="[A-Z]{3}-SE[0-9]{2}-[0-9]{4}" 
-                        required
-                    >
+                    <label id="lbl-id">Numéro d'ID (Kòd Etidyan)</label>
+                    <input type="text" name="id_etudiant" pattern="[A-Z]{3}-SE[0-9]{2}-[0-9]{4}" required>
                 </div>
-                <div class="input-group">
-                    <label>WhatsApp</label>
-                    <input type="tel" name="whatsapp" placeholder="+509..." required>
-                </div>
-                <button type="submit" class="btn-enroll">DEBLOKE AKSÈ MWEN</button>
+                <button type="submit" class="btn-enroll" id="btn-unlock">DEBLOKE AKSÈ MWEN</button>
             </form>
         </section>
 
         <div id="hidden-content" style="display: none;">
-            <section class="academic-section announcements">
-                <h2>📢 Dènye Anons</h2>
-                <div class="announcement-item">
-                    <span class="badge-new">NEW</span>
-                    <p style="font-size: 0.9rem; margin-top: 5px;">
-                        Egzamen yo ap kòmanse <strong>02 Mas 2026</strong>. Siksè pou tout moun!
-                    </p>
-                </div>
+            <section class="academic-section">
+                <h2 id="txt-ann-title">📢 Dènye Anons</h2>
+                <p id="txt-ann-msg">Egzamen yo ap kòmanse 02 Mas 2026.</p>
             </section>
 
             <div class="countdown-container">
-                <h3>⏳ Tan ki rete anvan Egzamen:</h3>
+                <h3 id="txt-timer-title">⏳ Tan ki rete anvan Egzamen:</h3>
                 <div id="timer">
-                    <div class="time-box"><span id="days">00</span><p>Jou</p></div>
-                    <div class="time-box"><span id="hours">00</span><p>Lè</p></div>
-                    <div class="time-box"><span id="minutes">00</span><p>Min</p></div>
-                    <div class="time-box"><span id="seconds">00</span><p>Seg</p></div>
+                    <div class="time-box"><span id="days">00</span><p class="unit">Jou</p></div>
+                    <div class="time-box"><span id="hours">00</span><p class="unit">Lè</p></div>
+                    <div class="time-box"><span id="minutes">00</span><p class="unit">Min</p></div>
+                    <div class="time-box"><span id="seconds">00</span><p class="unit">Seg</p></div>
                 </div>
             </div>
 
             <section class="academic-section">
-                <h2>📅 KALANDRIYE</h2>
+                <h2 id="txt-cal-title">📅 KALANDRIYE</h2>
                 <div class="exam-grid">
-                    <div class="exam-day"><div class="date-tag">Lendi 02</div><span class="subject">Matière 1</span><p>08h-11h</p></div>
-                    <div class="exam-day"><div class="date-tag">Madi 03</div><span class="subject">Matière 2</span><p>08h-11h</p></div>
-                    <div class="exam-day"><div class="date-tag">Mèkredi 04</div><span class="subject">Matière 3</span><p>08h-11h</p></div>
+                    <div class="exam-day"><span class="subject">Matière 1</span><p>08h-11h</p></div>
+                    <div class="exam-day"><span class="subject">Matière 2</span><p>08h-11h</p></div>
                 </div>
-            </section>
-
-            <section class="academic-section">
-                <h2>📚 Bibliyotèk & Gwoup</h2>
-                <div class="resource-grid">
-                    <a href="#" class="resource-card">📄 Syllabus</a>
-                    <a href="#" class="resource-card">📕 Nòt Kou</a>
-                </div>
-                <a href="https://wa.me/50932293348" class="btn-whatsapp" style="margin-top: 20px;">ANTRE NAN CHAT WHATSAPP</a>
             </section>
         </div>
     </main>
 
     <footer class="footer-pro">
-        <div class="footer-content">
-            <p class="dev-by">Sit sa a kreye pa <strong>Pierre Hitler Larochelle</strong></p>
-            <div class="contact-buttons">
-                <a href="https://wa.me/50932293348" class="contact-btn whatsapp-footer"><span>💬 WhatsApp</span></a>
-                <a href="tel:+50932293348" class="contact-btn call-footer"><span>📞 3229-3348</span></a>
-            </div>
-            <div class="copyright"><p>© 2026 | UPSAC | Tout dwa rezève</p></div>
-        </div>
+        <p>© 2026 | UPSAC | Pierre Hitler Larochelle</p>
     </footer>
 
     <script>
-        // 1. SEKIRITE AKSÈ KLAS LA
-        const KOD_AKSE_KLAS = "UPSAC-2026"; 
-
-        window.onload = function() {
-            let dejaAntre = sessionStorage.getItem("access_granted");
-
-            if (dejaAntre !== "true") {
-                let check = prompt("Antre Kòd Aksè Klas la (Mandé l nan gwoup la):");
-                if (check === KOD_AKSE_KLAS) {
-                    sessionStorage.setItem("access_granted", "true");
-                    document.body.style.display = "block";
-                } else {
-                    alert("Kòd la pa bon!");
-                    window.location.reload();
-                }
-            } else {
-                document.body.style.display = "block";
+        // --- 1. TRADUKSYON ---
+        const langData = {
+            fr: {
+                sub: "Science de l'Éducation", sec: "Section II",
+                lockT: "ACCÈS ÉTUDIANT", lockD: "Remplissez ce formulaire pour accéder aux informations.",
+                lblName: "Nom et Prénom", lblId: "Numéro d'ID", btnU: "DÉBLOQUER MON ACCÈS",
+                annT: "📢 Dernières Annonces", annM: "Les examens commencent le 02 Mars 2026.",
+                timT: "⏳ Temps restant avant Examens:",
+                units: ["Jours", "Heures", "Min", "Sec"], calT: "📅 CALENDRIER"
+            },
+            kr: {
+                sub: "Syans Edikasyon", sec: "Seksyon II",
+                lockT: "AKSÈ ETIDYAN", lockD: "Ranpli fòm sa a pou w ka jwenn tout enfòmasyon yo.",
+                lblName: "Non ak Prenon", lblId: "Nimewo ID", btnU: "DEBLOKE AKSÈ MWEN",
+                annT: "📢 Dènye Anons", annM: "Egzamen yo ap kòmanse 02 Mas 2026.",
+                timT: "⏳ Tan ki rete anvan Egzamen:",
+                units: ["Jou", "Lè", "Min", "Seg"], calT: "📅 KALANDRIYE"
             }
         };
 
-        // 2. LOGIK FORM NAN
-        const form = document.getElementById('registration-form');
-        form.addEventListener('submit', function() {
+        document.getElementById('lang-switch').addEventListener('change', (e) => {
+            const l = langData[e.target.value];
+            document.getElementById('txt-sub').innerText = l.sub;
+            document.getElementById('txt-sec').innerText = l.sec;
+            document.getElementById('txt-lock-title').innerText = l.lockT;
+            document.getElementById('txt-lock-desc').innerText = l.lockD;
+            document.getElementById('lbl-name').innerText = l.lblName;
+            document.getElementById('lbl-id').innerText = l.lblId;
+            document.getElementById('btn-unlock').innerText = l.btnU;
+            document.getElementById('txt-ann-title').innerText = l.annT;
+            document.getElementById('txt-ann-msg').innerText = l.annM;
+            document.getElementById('txt-timer-title').innerText = l.timT;
+            document.getElementById('txt-cal-title').innerText = l.calT;
+            const units = document.querySelectorAll('.unit');
+            l.units.forEach((u, i) => units[i].innerText = u);
+        });
+
+        // --- 2. DARK MODE ---
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            const body = document.body;
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            this.innerText = isDark ? '🌙' : '☀️';
+        });
+
+        // --- 3. SEKIRITE ---
+        const KOD_AKSE = "UPSAC-2026"; 
+        window.onload = function() {
+            if (sessionStorage.getItem("access") !== "true") {
+                let check = prompt("Kòd Aksè Klas la:");
+                if (check === KOD_AKSE) {
+                    sessionStorage.setItem("access", "true");
+                    document.body.style.display = "block";
+                } else {
+                    alert("Kòd la mal!"); window.location.reload();
+                }
+            } else { document.body.style.display = "block"; }
+        };
+
+        // --- 4. FORM & TIMER (Logik ou a) ---
+        document.getElementById('registration-form').addEventListener('submit', function() {
             setTimeout(() => {
                 document.getElementById('form-section').style.display = 'none';
                 document.getElementById('hidden-content').style.display = 'block';
-                window.scrollTo({top:0, behavior:'smooth'});
             }, 800);
         });
 
-        // 3. COUNTDOWN
         function updateTimer() {
             const target = new Date("March 2, 2026 08:00:00").getTime();
             const now = new Date().getTime();
