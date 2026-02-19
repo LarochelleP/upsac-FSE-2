@@ -1,3 +1,6 @@
+Men kòd **CSS** la apa, ki gen ladan yo tout varyab tèm yo (Light/Dark), stil pwofesyonèl pou UPSAC la, ak tout ajisteman pou mobil yo jan ou te mande l la:
+
+```css
 /* =========================================
    1. VARIABLE POU THEME (LIGHT & DARK)
    ========================================= */
@@ -9,6 +12,7 @@
     --shadow: rgba(0, 0, 0, 0.1);
     --header-grad: linear-gradient(135deg, #11999E 0%, #30E3CB 100%);
     --card-hover: #fcfdfe;
+    --primary: #11999E;
 }
 
 [data-theme="dark"] {
@@ -225,8 +229,18 @@ input:focus {
     transform: translateY(-5px);
 }
 
+.date-tag {
+    background: #11999E;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
 /* =========================================
-   8. FOOTER
+   8. FOOTER AK BOUTON YO
    ========================================= */
 .footer-pro {
     background: #1a1d20;
@@ -236,11 +250,64 @@ input:focus {
     margin-top: 80px;
 }
 
+.footer-btns {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.f-btn {
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.f-wa { background: #25D366; }
+.f-call { background: #11999E; }
+
 /* =========================================
-   9. MOBILE RESPONSIVE
+   9. ANONS (AJOUTE)
+   ========================================= */
+.announcements {
+    border-left: 6px solid #FF8C00;
+    background: #fffdf9;
+}
+
+[data-theme="dark"] .announcements {
+    background: #2d2418;
+}
+
+.badge-new {
+    background: #e74c3c;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* =========================================
+   10. MOBILE RESPONSIVE
    ========================================= */
 @media (max-width: 600px) {
     .settings-bar { top: 10px; right: 10px; }
     .registration-card { width: 92%; padding: 25px; }
     .exam-grid, .resource-grid { grid-template-columns: 1fr; }
+    .time-box { min-width: 65px; padding: 10px; }
 }
+
+```
+
+Èske ou vle mwen ede ou entegre li nan paj HTML la oswa ou bezwen yon lòt bagay ankò?
