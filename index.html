@@ -5,19 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portail Étudiant - UPSAC</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
     <style>
-        /* =========================================
-           1. VARIABLE POU THEME (LIGHT & DARK)
-           ========================================= */
         :root {
             --bg-color: #f0f4f7;
             --card-bg: #ffffff;
             --text-color: #2d3436;
             --input-border: #e1e8ed;
             --shadow: rgba(0, 0, 0, 0.1);
-            --header-grad: linear-gradient(135deg, #11999E 0%, #30E3CB 100%);
-            --card-hover: #fcfdfe;
+            --primary: #11999E;
+            --secondary: #30E3CB;
         }
 
         [data-theme="dark"] {
@@ -26,13 +22,8 @@
             --text-color: #e0e0e0;
             --input-border: #333333;
             --shadow: rgba(0, 0, 0, 0.4);
-            --header-grad: linear-gradient(135deg, #0a5a5d 0%, #11999E 100%);
-            --card-hover: #252525;
         }
 
-        /* =========================================
-           2. RESET AK STIL JENERAL
-           ========================================= */
         * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.3s ease; }
 
         body {
@@ -40,233 +31,223 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
-            display: none; /* Kache pou sekirite okòmansman */
         }
 
-        /* BAR PARAMÈT */
-        .settings-bar {
-            position: fixed; top: 15px; right: 20px; z-index: 1000;
-            display: flex; gap: 10px;
+        /* MODAL SEKIRITE */
+        #auth-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center; z-index: 9999;
         }
-        .settings-btn {
-            padding: 8px 15px; border-radius: 25px; border: none;
-            background: var(--card-bg); color: var(--text-color);
-            box-shadow: 0 4px 10px var(--shadow); cursor: pointer;
-            font-size: 0.85rem; font-weight: 600; outline: none;
+        .auth-card {
+            background: var(--card-bg); padding: 40px; border-radius: 25px;
+            width: 90%; max-width: 400px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); border-top: 6px solid var(--primary);
         }
+        .auth-card input {
+            width: 100%; padding: 15px; border-radius: 12px; border: 2px solid var(--input-border);
+            margin: 20px 0; text-align: center; font-size: 1.2rem; background: var(--bg-color); color: var(--text-color);
+        }
+
+        /* SETTINGS */
+        .settings-bar { position: fixed; top: 15px; right: 20px; z-index: 1000; display: flex; gap: 10px; }
+        .settings-btn { padding: 8px 15px; border-radius: 25px; border: none; background: var(--card-bg); color: var(--text-color); box-shadow: 0 4px 10px var(--shadow); cursor: pointer; font-size: 0.85rem; font-weight: 600; }
 
         /* HEADER */
         .class-header {
-            background: var(--header-grad); color: white;
-            padding: 80px 20px; text-align: center;
-            clip-path: ellipse(150% 100% at 50% 0%);
+            background: linear-gradient(135deg, #11999E 0%, #30E3CB 100%);
+            color: white; padding: 80px 20px; text-align: center; clip-path: ellipse(150% 100% at 50% 0%);
         }
-        .univ-logo { width: 100px; margin-bottom: 15px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2)); }
-        .class-info p {
-            background: rgba(255, 255, 255, 0.2); padding: 6px 15px;
-            border-radius: 50px; display: inline-block; margin: 5px; font-size: 0.85rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
+        .univ-logo { width: 90px; margin-bottom: 10px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2)); }
 
-        /* LAYOUT */
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; display: none; }
 
-        .card-section {
-            background: var(--card-bg); padding: 35px; border-radius: 25px;
-            margin-bottom: 30px; box-shadow: 0 8px 20px var(--shadow);
-        }
+        .card-section { background: var(--card-bg); padding: 30px; border-radius: 25px; margin-bottom: 30px; box-shadow: 0 8px 20px var(--shadow); }
+        
+        /* ANONS */
+        .announcements { border-left: 6px solid #FF8C00; background: #fff9f0; }
+        [data-theme="dark"] .announcements { background: #2d2418; }
+        .badge-new { background: #e74c3c; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; animation: blink 1.5s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        /* FORMULAIRE */
-        .registration-card { max-width: 500px; margin: -50px auto 40px auto; text-align: center; position: relative; z-index: 10; border-top: 5px solid #11999E; }
-        .input-group { text-align: left; margin-bottom: 18px; }
-        label { font-weight: 600; color: #11999E; font-size: 0.85rem; }
-        input {
-            width: 100%; padding: 14px; background: var(--card-bg); color: var(--text-color);
-            border: 1.5px solid var(--input-border); border-radius: 12px; margin-top: 5px; outline: none;
-        }
-        .btn-enroll {
-            background: #11999E; color: white; border: none; padding: 16px;
-            width: 100%; border-radius: 12px; font-weight: 600; cursor: pointer;
-        }
+        /* FORM */
+        .registration-card { max-width: 500px; margin: -50px auto 40px auto; text-align: center; border-top: 5px solid var(--primary); }
+        input { width: 100%; padding: 14px; background: var(--bg-color); color: var(--text-color); border: 1.5px solid var(--input-border); border-radius: 12px; margin-top: 5px; outline: none; }
+        .btn-action { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: 600; cursor: pointer; }
 
         /* TIMER */
-        .countdown-container { text-align: center; background: #2d3436; color: white; padding: 30px 20px; border-radius: 20px; margin-bottom: 35px; }
-        #timer { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
-        .time-box { background: rgba(255, 255, 255, 0.08); padding: 15px; border-radius: 12px; min-width: 80px; }
-        .time-box span { font-size: 2rem; font-weight: 700; display: block; }
-        .time-box p { font-size: 0.7rem; text-transform: uppercase; opacity: 0.6; }
+        .countdown-container { text-align: center; background: #2d3436; color: white; padding: 25px; border-radius: 20px; margin-bottom: 30px; }
+        #timer { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+        .time-box { background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 10px; min-width: 70px; }
+        .time-box span { font-size: 1.5rem; font-weight: 700; display: block; }
 
         /* GRID */
-        .exam-grid, .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 25px; }
-        .exam-day, .resource-card {
-            background: var(--card-hover); border: 1px solid var(--input-border);
-            padding: 25px 15px; border-radius: 18px; text-align: center; text-decoration: none; color: var(--text-color);
-        }
-        .date-tag { background: #11999E; color: white; padding: 6px 14px; border-radius: 25px; font-size: 0.85rem; margin-bottom: 15px; display: inline-block; }
-        .subject { font-weight: 700; display: block; }
+        .exam-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
+        .exam-day { background: var(--bg-color); border: 1px solid var(--input-border); padding: 15px; border-radius: 12px; text-align: center; }
+        .date-tag { background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; margin-bottom: 10px; display: inline-block; }
 
         /* FOOTER */
-        .footer-pro { background: #1a1d20; color: white; padding: 60px 20px; text-align: center; margin-top: 80px; }
-        .btn-whatsapp { background: #25D366; color: white; text-decoration: none; padding: 15px; border-radius: 12px; display: block; margin-top: 20px; font-weight: 600; }
+        .footer-pro { background: #1a1d20; color: white; padding: 50px 20px; text-align: center; margin-top: 50px; border-top: 4px solid var(--primary); }
+        .contact-buttons { display: flex; justify-content: center; gap: 15px; margin: 20px 0; flex-wrap: wrap; }
+        .contact-btn { text-decoration: none; padding: 12px 25px; border-radius: 30px; color: white; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .wa-btn { background: #25D366; }
+        .call-btn { background: var(--primary); }
 
-        @media (max-width: 600px) { .exam-grid, .resource-grid { grid-template-columns: 1fr; } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+        .error-shake { animation: shake 0.3s ease-in-out; border-color: #e74c3c !important; }
     </style>
 </head>
 <body data-theme="light">
 
+    <div id="auth-overlay">
+        <div class="auth-card" id="auth-box">
+            <div style="font-size: 3rem;">🛡️</div>
+            <h2 id="modal-title">Aksè Pwoteje</h2>
+            <p id="modal-desc">Antre kòd klas la pou debloke pòtal la.</p>
+            <input type="password" id="access-code-input" placeholder="••••••••">
+            <button class="btn-action" onclick="checkAccess()" id="modal-btn">DEBLOKE</button>
+        </div>
+    </div>
+
     <div class="settings-bar">
         <select id="lang-switch" class="settings-btn">
-            <option value="fr">🇫🇷 FR</option>
             <option value="kr">🇭🇹 KR</option>
+            <option value="fr">🇫🇷 FR</option>
             <option value="en">🇺🇸 EN</option>
         </select>
         <button id="theme-toggle" class="settings-btn">🌙</button>
     </div>
 
     <header class="class-header">
-        <img src="Images/Logo.png" alt="Logo UPSAC" class="univ-logo">
+        <img src="Images/Logo.png" alt="Logo" class="univ-logo">
         <h1>UPSAC - CAYES</h1>
-        <h2 id="txt-faculty">Science de l'Éducation</h2>
-        <div class="class-info">
-            <p>FSE II</p>
-            <p id="txt-section">Section II</p>
+        <h2 id="txt-faculty">Syans Edikasyon</h2>
+        <div style="margin-top:10px;">
+            <span style="background:rgba(255,255,255,0.2); padding:5px 15px; border-radius:50px; font-size:0.8rem;">FSE II | Seksyon II</span>
         </div>
     </header>
 
-    <main class="container">
+    <main class="container" id="main-content">
         <section class="card-section registration-card" id="form-section">
-            <div style="font-size: 2.5rem; margin-bottom: 10px;">🔒</div>
-            <h2 id="txt-access-title">ACCÈS ÉTUDIANT</h2>
-            <p id="txt-access-desc">Veuillez remplir ce formulaire pour accéder aux informations.</p>
-            
+            <h2 id="txt-access-title">IDANTIFIKASYON</h2>
+            <p style="font-size:0.8rem; margin-bottom:15px;">Ranpli sa pou w wè kalandriye a</p>
             <form id="registration-form" action="https://formspree.io/f/xykddyeb" method="POST">
-                <div class="input-group">
-                    <label id="lbl-name">Nom et Prénom</label>
-                    <input type="text" name="nom" required>
-                </div>
-                <div class="input-group">
-                    <label id="lbl-id">ID Étudiant</label>
-                    <input type="text" name="id" placeholder="PLA-SE24-XXXX" required>
-                </div>
-                <button type="submit" class="btn-enroll" id="btn-unlock">DÉBLOQUER MON ACCÈS</button>
+                <input type="text" name="nom" placeholder="Nom et Prénom" required>
+                <input type="text" name="id" placeholder="PLA-SE24-XXXX" required style="margin-bottom:15px;">
+                <button type="submit" class="btn-action">KONTINYE</button>
             </form>
         </section>
 
         <div id="hidden-content" style="display: none;">
+            <section class="card-section announcements">
+                <h2 id="txt-ann-title">📢 Dènye Anons</h2>
+                <div style="margin-top: 10px;">
+                    <span class="badge-new">NEW</span>
+                    <p id="txt-ann-desc">Egzamen yo ap kòmanse 02 Mas 2026. Siksè pou tout moun!</p>
+                </div>
+            </section>
+
             <div class="countdown-container">
-                <h3 id="txt-timer-title">⏳ Temps restant avant Examens:</h3>
+                <h3 id="txt-timer-title">⏳ Tan ki rete anvan Egzamen:</h3>
                 <div id="timer">
-                    <div class="time-box"><span id="days">00</span><p class="unit">Jours</p></div>
-                    <div class="time-box"><span id="hours">00</span><p class="unit">Heures</p></div>
+                    <div class="time-box"><span id="days">00</span><p class="unit">Jou</p></div>
+                    <div class="time-box"><span id="hours">00</span><p class="unit">Lè</p></div>
                     <div class="time-box"><span id="minutes">00</span><p class="unit">Min</p></div>
-                    <div class="time-box"><span id="seconds">00</span><p class="unit">Sec</p></div>
+                    <div class="time-box"><span id="seconds">00</span><p class="unit">Seg</p></div>
                 </div>
             </div>
 
             <section class="card-section">
-                <h2 id="txt-cal-title">📅 KALANDRIYE</h2>
+                <h2 id="txt-cal-title">📅 KALANDRIYE EGZAMEN</h2>
                 <div class="exam-grid">
-                    <div class="exam-day"><div class="date-tag" id="txt-mon">Lundi 02</div><span class="subject">Matière 1</span><p>08h-11h</p></div>
-                    <div class="exam-day"><div class="date-tag" id="txt-tue">Madi 03</div><span class="subject">Matière 2</span><p>08h-11h</p></div>
+                    <div class="exam-day"><span class="date-tag" id="txt-d1">Lendi 02</span><br><b>Matière 1</b><p>08h-11h</p></div>
+                    <div class="exam-day"><span class="date-tag" id="txt-d2">Madi 03</span><br><b>Matière 2</b><p>08h-11h</p></div>
+                    <div class="exam-day"><span class="date-tag" id="txt-d3">Mèkredi 04</span><br><b>Matière 3</b><p>08h-11h</p></div>
+                    <div class="exam-day"><span class="date-tag" id="txt-d4">Jedi 05</span><br><b>Matière 4</b><p>08h-11h</p></div>
+                    <div class="exam-day"><span class="date-tag" id="txt-d5">Vandredi 06</span><br><b>Matière 5</b><p>08h-11h</p></div>
                 </div>
-            </section>
-
-            <section class="card-section">
-                <h2 id="txt-res-title">📚 Ressources</h2>
-                <div class="resource-grid">
-                    <a href="#" class="resource-card" id="txt-syl">📄 Syllabus</a>
-                    <a href="#" class="resource-card" id="txt-not">📕 Notes</a>
-                </div>
-                <a href="https://wa.me/50932293348" class="btn-whatsapp" id="btn-wa">REJOINDRE LE GROUPE WHATSAPP</a>
             </section>
         </div>
     </main>
 
     <footer class="footer-pro">
-        <p>© 2026 | UPSAC | Pierre Hitler Larochelle</p>
+        <p>Sit sa a kreye pa <strong>Pierre Hitler Larochelle</strong></p>
+        <div class="contact-buttons">
+            <a href="https://wa.me/50932293348" class="contact-btn wa-btn">💬 WhatsApp</a>
+            <a href="tel:+50932293348" class="contact-btn call-btn">📞 3229-3348</a>
+        </div>
+        <p style="font-size:0.75rem; opacity:0.5; border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">© 2026 | UPSAC | Tout dwa rezève</p>
     </footer>
 
     <script>
-        // 1. TRADUCTION DATA
+        const CODE_UPSAC = "UPSAC-2026";
+
+        function checkAccess() {
+            const input = document.getElementById('access-code-input');
+            const box = document.getElementById('auth-box');
+            if (input.value === CODE_UPSAC) {
+                document.getElementById('auth-overlay').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                sessionStorage.setItem("auth", "true");
+            } else {
+                box.classList.add('error-shake');
+                setTimeout(() => box.classList.remove('error-shake'), 300);
+                input.value = ""; input.placeholder = "Kòd la pa bon!";
+            }
+        }
+
+        if (sessionStorage.getItem("auth") === "true") {
+            document.getElementById('auth-overlay').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }
+
         const langData = {
-            fr: {
-                faculty: "Science de l'Éducation", section: "Section II",
-                accessT: "ACCÈS ÉTUDIANT", accessD: "Veuillez remplir ce formulaire pour accéder aux informations.",
-                name: "Nom et Prénom", id: "ID Étudiant", unlock: "DÉBLOQUER MON ACCÈS",
-                timerT: "⏳ Temps restant avant Examens:", units: ["Jours", "Heures", "Min", "Sec"],
-                calT: "📅 CALENDRIER", resT: "📚 Ressources", btnWA: "REJOINDRE LE GROUPE WHATSAPP",
-                mon: "Lundi 02", tue: "Mardi 03", syl: "📄 Syllabus", not: "📕 Notes"
-            },
             kr: {
-                faculty: "Syans Edikasyon", section: "Seksyon II",
-                accessT: "AKSÈ ETIDYAN", accessD: "Ranpli fòm sa a pou w ka jwenn tout enfòmasyon yo.",
-                name: "Non ak Prenon", id: "ID Etidyan", unlock: "DEBLOKE AKSÈ MWEN",
-                timerT: "⏳ Tan ki rete anvan Egzamen:", units: ["Jou", "Lè", "Min", "Seg"],
-                calT: "📅 KALANDRIYE", resT: "📚 Resous yo", btnWA: "ANTRE NAN GWOUP WHATSAPP LA",
-                mon: "Lendi 02", tue: "Madi 03", syl: "📄 Silabis", not: "📕 Nòt yo"
+                faculty: "Syans Edikasyon", accT: "IDANTIFIKASYON", annT: "📢 Dènye Anons",
+                timerT: "⏳ Tan ki rete anvan Egzamen:", calT: "📅 KALANDRIYE EGZAMEN",
+                units: ["Jou", "Lè", "Min", "Seg"], d1: "Lendi 02", d2: "Madi 03", d3: "Mèkredi 04", d4: "Jedi 05", d5: "Vandredi 06"
+            },
+            fr: {
+                faculty: "Science de l'Éducation", accT: "IDENTIFICATION", annT: "📢 Dernières Annonces",
+                timerT: "⏳ Temps restant avant Examens:", calT: "📅 CALENDRIER EXAMENS",
+                units: ["Jours", "Heures", "Min", "Sec"], d1: "Lundi 02", d2: "Mardi 03", d3: "Mercredi 04", d4: "Jeudi 05", d5: "Vendredi 06"
             },
             en: {
-                faculty: "Science of Education", section: "Section II",
-                accessT: "STUDENT ACCESS", accessD: "Please fill out this form to access information.",
-                name: "Full Name", id: "Student ID", unlock: "UNLOCK MY ACCESS",
-                timerT: "⏳ Time left before Exams:", units: ["Days", "Hours", "Min", "Sec"],
-                calT: "📅 CALENDAR", resT: "📚 Resources", btnWA: "JOIN WHATSAPP GROUP",
-                mon: "Monday 02", tue: "Tuesday 03", syl: "📄 Syllabus", not: "📕 Notes"
+                faculty: "Science of Education", accT: "IDENTIFICATION", annT: "📢 Latest Announcements",
+                timerT: "⏳ Time left before Exams:", calT: "📅 EXAM SCHEDULE",
+                units: ["Days", "Hours", "Min", "Sec"], d1: "Monday 02", d2: "Tuesday 03", d3: "Wednesday 04", d4: "Thursday 05", d5: "Friday 06"
             }
         };
 
-        // CHANJE LANG
         document.getElementById('lang-switch').addEventListener('change', (e) => {
             const l = langData[e.target.value];
             document.getElementById('txt-faculty').innerText = l.faculty;
-            document.getElementById('txt-section').innerText = l.section;
-            document.getElementById('txt-access-title').innerText = l.accessT;
-            document.getElementById('txt-access-desc').innerText = l.accessD;
-            document.getElementById('lbl-name').innerText = l.name;
-            document.getElementById('lbl-id').innerText = l.id;
-            document.getElementById('btn-unlock').innerText = l.unlock;
+            document.getElementById('txt-access-title').innerText = l.accT;
+            document.getElementById('txt-ann-title').innerText = l.annT;
             document.getElementById('txt-timer-title').innerText = l.timerT;
             document.getElementById('txt-cal-title').innerText = l.calT;
-            document.getElementById('txt-res-title').innerText = l.resT;
-            document.getElementById('btn-wa').innerText = l.btnWA;
-            document.getElementById('txt-mon').innerText = l.mon;
-            document.getElementById('txt-tue').innerText = l.tue;
-            document.getElementById('txt-syl').innerText = l.syl;
-            document.getElementById('txt-not').innerText = l.not;
-            
+            document.getElementById('txt-d1').innerText = l.d1;
+            document.getElementById('txt-d2').innerText = l.d2;
+            document.getElementById('txt-d3').innerText = l.d3;
+            document.getElementById('txt-d4').innerText = l.d4;
+            document.getElementById('txt-d5').innerText = l.d5;
             const units = document.querySelectorAll('.unit');
             l.units.forEach((u, i) => units[i].innerText = u);
         });
 
-        // 2. MODE SOMBRE
         document.getElementById('theme-toggle').addEventListener('click', function() {
             const isDark = document.body.getAttribute('data-theme') === 'dark';
             document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
             this.innerText = isDark ? '🌙' : '☀️';
         });
 
-        // 3. SEKIRITE KÒD (UPSAC-2026)
-        const CODE_UPSAC = "UPSAC-2026";
-        window.onload = function() {
-            if (sessionStorage.getItem("auth") !== "true") {
-                let check = prompt("Kòd Aksè Klas la / Access Code:");
-                if (check === CODE_UPSAC) {
-                    sessionStorage.setItem("auth", "true");
-                    document.body.style.display = "block";
-                } else {
-                    alert("Kòd la pa bon! / Incorrect Code!"); window.location.reload();
-                }
-            } else { document.body.style.display = "block"; }
-        };
-
-        // 4. FORM & TIMER
-        document.getElementById('registration-form').addEventListener('submit', function() {
+        document.getElementById('registration-form').onsubmit = function() {
             setTimeout(() => {
                 document.getElementById('form-section').style.display = 'none';
                 document.getElementById('hidden-content').style.display = 'block';
                 window.scrollTo({top: 0, behavior: 'smooth'});
             }, 800);
-        });
+        };
 
         function updateTimer() {
             const target = new Date("March 2, 2026 08:00:00").getTime();
